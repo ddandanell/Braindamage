@@ -1,5 +1,6 @@
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+// fix: Import 'Transition' type from framer-motion to resolve type error.
+import { motion, AnimatePresence, Transition } from 'framer-motion';
 import { useAppStore } from '../store';
 import { LogOutIcon } from './Icons';
 
@@ -20,7 +21,8 @@ const pageVariants = {
   out: { opacity: 0, y: -20 },
 };
 
-const pageTransition = {
+// fix: Explicitly type 'pageTransition' with the 'Transition' type from framer-motion.
+const pageTransition: Transition = {
   type: 'tween',
   ease: 'anticipate',
   duration: 0.4,

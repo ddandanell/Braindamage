@@ -305,24 +305,28 @@ const ContentPane: React.FC<{ user: User; path: {id: string | null, name: string
         onSelectNote({ id: newDoc.id, ...newDoc.data() } as KBNote);
     };
     
-    // fix: Explicitly type the item parameter to preserve the discriminated union type.
+    // fix: Refactor `handleDelete` to use type narrowing. This helps TypeScript understand the discriminated union and correctly resolves the type of `item` when accessing properties like `.name` or `.title`, fixing the compile error.
     const handleDelete = async (item: (KBFolder & { type: 'folder' }) | (KBNote & { type: 'note' })) => {
-        const type = item.type;
-        const collectionRef = type === 'folder' ? foldersCollection : notesCollection;
+        const collectionRef = item.type === 'folder' ? foldersCollection : notesCollection;
         const docRef = doc(collectionRef, item.id);
 
-        if (type === 'folder') {
+        if (item.type === 'folder') {
             const hasContent = allFolders.some(f => f.parentId === item.id) || currentNotes.some(n => n.folderId === item.id);
-            if (hasContent) { alert("Delete folder contents first."); return; }
+            if (hasContent) {
+                alert("Delete folder contents first.");
+                return;
+            }
         }
-        if (!window.confirm(`Delete ${type} "${type==='folder' ? item.name : item.title}"?`)) return;
+        if (!window.confirm(`Delete ${item.type} "${item.type === 'folder' ? item.name : item.title}"?`)) return;
 
         // Optimistic delete
-        // fix: Pass item directly instead of spreading to preserve the discriminated union type, which was causing errors on undo.
-        setRecentlyDeleted({ item: item, timerId: window.setTimeout(() => {
-            deleteDoc(docRef);
-            setRecentlyDeleted(null);
-        }, 5000)});
+        setRecentlyDeleted({
+            item: item,
+            timerId: window.setTimeout(() => {
+                deleteDoc(docRef);
+                setRecentlyDeleted(null);
+            }, 5000)
+        });
     };
 
     return (

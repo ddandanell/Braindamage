@@ -27,8 +27,6 @@ const app = initializeApp(firebaseConfig);
 // Robust Firestore initialization
 export const db = initializeFirestore(app, {
   localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }),
-  experimentalAutoDetectLongPolling: true,
-  useFetchStreams: true,
 });
 
 // Optional: quiet noisy warnings
