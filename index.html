@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF--8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brain Damage</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --size-0: 4px; --size-1: 8px; --size-2: 12px; --size-3: 16px;
+        --size-4: 20px; --size-5: 24px; --size-6: 32px; --size-7: 40px;
+        --size-8: 48px; --size-9: 56px; --size-10: 64px;
+
+        --radius-sm: 8px; --radius-md: 12px; --radius-lg: 14px; --radius-xl: 20px;
+
+        --lh-heading: 1.2; --lh-body: 1.55;
+        --container-max: 1440px; --column-max: 1120px;
+        --sidebar-w: 288px; --rightpanel-w: 320px; --topbar-h: 64px;
+      }
+      body {
+        font-family: 'Inter', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-variant-numeric: tabular-nums;
+        line-height: var(--lh-body);
+      }
+      h1, h2, h3, h4, h5, h6 {
+        line-height: var(--lh-heading);
+      }
+    </style>
+  <script src="https://www.google.com/recaptcha/api.js?render=6LdwGrkrAAAAAHe_Iz1NmaUi_kqcRB6s9vqIX7bW"></script>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+    "react/": "https://aistudiocdn.com/react@^19.1.1/",
+    "react": "https://aistudiocdn.com/react@^19.1.1",
+    "firebase/app": "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js",
+    "firebase/auth": "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js",
+    "firebase/firestore": "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js",
+    "firebase/analytics": "https://www.gstatic.com/firebasejs/12.2.1/firebase-analytics.js",
+    "firebase/": "https://aistudiocdn.com/firebase@^12.2.1/"
+  }
+}
+</script>
+</head>
+  <body class="bg-slate-50 text-slate-900">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
