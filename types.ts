@@ -63,6 +63,24 @@ export interface Tag {
     color: string;
 }
 
+export type Stage = 'New' | 'Contacted' | 'Demo' | 'Proposal' | 'Won' | 'Lost';
+
+export interface Deal {
+  id: string;
+  contactId: string;
+  company: string;
+  value: number;
+  stage: Stage;
+  nextStep?: string;
+  dueAt?: string | null;      // ISO
+  tags?: string[];
+  ownerId?: string;
+  order?: number;
+  createdAt?: string;
+  updatedAt?: string;
+  deletedAt?: string | null;
+}
+
 export interface Contact {
   id: string;
   name: string;
@@ -74,6 +92,10 @@ export interface Contact {
   tags?: string[];
   status?: 'New' | 'Contacted' | 'Won' | 'Lost';
   reminderAt?: string | null;
+  updatedAt?: string;
+  deletedAt?: string | null;
+  ownerId?: string;
+  lastActivityAt?: string;
 }
 
 export interface KBFolder {
@@ -186,12 +208,24 @@ export interface WarGoal {
   financialTarget?: number;
   estimatedTime?: string;
   knowledgeRequired?: string;
+  deadline?: string; // ISO string for goal deadline
   principles?: Principle[];
   team?: TeamMember[];
   documents?: GoalDocument[];
   transactions?: GoalTransaction[];
   goalContacts?: GoalContact[];
+  history?: GoalHistoryEntry[];
 }
+
+export interface GoalHistoryEntry {
+  id: string;
+  date: string;
+  title: string;
+  description: string;
+  type: HistoryType;
+}
+
+export type HistoryType = 'Update' | 'Achievement' | 'Milestone' | 'Challenge';
 
 export interface Mission {
   id: string;
