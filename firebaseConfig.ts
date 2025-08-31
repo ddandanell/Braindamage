@@ -1,37 +1,60 @@
 
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { getAuth, connectAuthEmulator } from 'firebase/auth';
 import {
   initializeFirestore,
   persistentLocalCache,
   persistentMultipleTabManager,
   setLogLevel,
+  connectFirestoreEmulator,
 } from 'firebase/firestore';
 import { getAnalytics } from 'firebase/analytics';
 
-// Your web app's Firebase configuration
+// Firebase configuration provided via Vite env (define in .env.* files)
 const firebaseConfig = {
-  apiKey: "AIzaSyCliLe51I0w5mnPeR8NT0az78_meW4YrQc",
-  authDomain: "noad-5961e.firebaseapp.com",
-  databaseURL: "https://noad-5961e-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "noad-5961e",
-  storageBucket: "noad-5961e.firebasestorage.app",
-  messagingSenderId: "928476669832",
-  appId: "1:928476669832:web:cd09d181b36839ee65bc3d",
-  measurementId: "G-7LD3T97LV3"
+  apiKey: import.meta.env.VITE_FB_API_KEY,
+  authDomain: import.meta.env.VITE_FB_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FB_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FB_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FB_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FB_APP_ID,
+  measurementId: import.meta.env.VITE_FB_MEASUREMENT_ID,
 };
 
-// Initialize Firebase using the modern v9 modular SDK
 const app = initializeApp(firebaseConfig);
 
-// Robust Firestore initialization
 export const db = initializeFirestore(app, {
   localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }),
 });
 
-// Optional: quiet noisy warnings
-setLogLevel('error');
-
-// Export other Firebase services
 export const auth = getAuth(app);
-export const analytics = getAnalytics(app);
+
+export const analytics = ((): ReturnType<typeof getAnalytics> | null => {
+  try {
+    if (typeof window !== 'undefined' && firebaseConfig.measurementId) {
+      return getAnalytics(app);
+    }
+  } catch (_) {
+    // Ignore analytics errors
+  }
+  return null;
+})();
+
+setLogLevel(import.meta.env.DEV ? 'warn' : 'error');
+
+if (import.meta.env.VITE_USE_EMULATORS === 'true') {
+  try {
+    connectAuthEmulator(auth, 'http://localhost:9099', { disableWarnings: true });
+    connectFirestoreEmulator(db as any, 'localhost', 8080);
+    console.info('[firebase] Emulators connected');
+  } catch (e) {
+    console.warn('[firebase] Emulator connection failed', e);
+  }
+}
+
+if (import.meta.env.DEV) {
+  const missing = Object.entries(firebaseConfig).filter(([, v]) => !v).map(([k]) => k);
+  if (missing.length) {
+    console.warn('[firebase] Missing env vars:', missing.join(', '));
+  }
+}
