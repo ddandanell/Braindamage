@@ -280,7 +280,7 @@ export interface HistoryEntry {
   createdAt: string; // ISO string
 }
 
-export type ViewType = 'dashboard' | 'passwords' | 'todolist' | 'knowledge' | 'bookmarks' | 'war_planner' | 'settings' | 'valuta' | 'crm' | 'moneybox';
+export type ViewType = 'dashboard' | 'passwords' | 'todolist' | 'knowledge' | 'bookmarks' | 'war_planner' | 'settings' | 'valuta' | 'crm' | 'moneybox' | 'business_ideas' | 'web_development' | 'diary' | 'habit_tracking';
 
 // New types for Zustand store
 import { User } from 'firebase/auth';
