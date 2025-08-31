@@ -1,5 +1,7 @@
 {
-  "name": "BrainDamage.online",
+  "name": "Happy Brain Damage 24/7",
   "description": "Brain Damage - The first system to make a zombie organized",
-  "requestFramePermissions": []
+  "requestFramePermissions": [
+    "microphone"
+  ]
 }

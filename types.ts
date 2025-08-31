@@ -1,4 +1,5 @@
 
+
 export interface Subtask {
   id: string;
   title: string;
@@ -27,6 +28,7 @@ export interface Task {
   subtasks: Subtask[];
   createdAt: string; // Firestore Timestamp converted to ISO string
   isFlagged?: boolean;
+  sourceNoteId?: string; // Link back to knowledge base note
 }
 
 export interface Catalog {
@@ -68,6 +70,10 @@ export interface Contact {
   phone: string;
   notes: string;
   createdAt: string;
+  company?: string;
+  tags?: string[];
+  status?: 'New' | 'Contacted' | 'Won' | 'Lost';
+  reminderAt?: string | null;
 }
 
 export interface KBFolder {
@@ -76,13 +82,17 @@ export interface KBFolder {
   parentId: string | null;
   order: number;
   createdAt: string; // ISO string
+  color?: string;
+  icon?: string;
+  description?: string;
 }
 
 export interface KBNote {
   id: string;
-  folderId: string;
+  folderId: string | null;
   title: string;
   content: string; // HTML content from the rich-text editor
+  order: number;
   createdAt: string; // ISO string
   updatedAt: string; // ISO string
 }
@@ -105,6 +115,11 @@ export interface Bookmark {
   order: number;
   faviconUrl?: string;
   createdAt: string;
+  isArchived?: boolean;
+  archivedContent?: string;
+  archivedAt?: string;
+  // fix: Added missing stickyNotes property to the Bookmark interface.
+  stickyNotes?: StickyNote[];
 }
 
 export interface StickyNote {
@@ -232,3 +247,17 @@ export interface HistoryEntry {
 }
 
 export type ViewType = 'dashboard' | 'passwords' | 'todolist' | 'knowledge' | 'bookmarks' | 'war_planner' | 'settings' | 'valuta' | 'crm' | 'moneybox';
+
+// New types for Zustand store
+import { User } from 'firebase/auth';
+
+export interface AppStore {
+    user: User | null;
+    currentView: ViewType;
+    isSidebarOpen: boolean;
+    initialNoteToOpen: string | null;
+    setUser: (user: User | null) => void;
+    setCurrentView: (view: ViewType) => void;
+    setSidebarOpen: (isOpen: boolean) => void;
+    navigateToNote: (noteId: string) => void;
+}

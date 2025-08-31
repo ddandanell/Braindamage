@@ -1,11 +1,8 @@
-
-
 import React, { useState, useCallback, useEffect } from 'react';
-// fix: Changed to a default import for Dashboard as it is now default exported.
 import Dashboard from './components/Dashboard';
 import { auth } from './firebaseConfig';
 import { User, onAuthStateChanged, signInWithEmailAndPassword, signOut, setPersistence, browserLocalPersistence, browserSessionPersistence } from 'firebase/auth';
-
+import { useAppStore } from './store';
 
 // --- Login Component Definition ---
 const Login: React.FC = () => {
@@ -34,8 +31,9 @@ const Login: React.FC = () => {
   }, [email, password, rememberMe]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-slate-50 p-4">
-      <div className="w-full max-w-md p-10 space-y-8 bg-white rounded-2xl shadow-xl">
+    <div className="relative flex items-center justify-center min-h-screen p-4 overflow-hidden">
+      {/* The background is now controlled by a class on the body tag */}
+      <div className="relative z-10 w-full max-w-md p-10 space-y-8 bg-white rounded-2xl shadow-xl">
         <div className="text-center">
           <h1 className="text-[36px] font-bold tracking-tight text-slate-900">Brain Damage</h1>
           <p className="mt-4 text-base text-slate-600">The first system to make a zombie organized</p>
@@ -86,7 +84,6 @@ const Login: React.FC = () => {
             </label>
           </div>
 
-
           {error && (
             <div className="p-4 text-sm text-red-800 bg-red-100 rounded-lg">
               {error}
@@ -109,7 +106,7 @@ const Login: React.FC = () => {
 
 // --- Main App Component ---
 const App: React.FC = () => {
-  const [user, setUser] = useState<User | null>(null);
+  const { user, setUser } = useAppStore();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -117,10 +114,23 @@ const App: React.FC = () => {
       setUser(currentUser);
       setLoading(false);
     });
-    // Cleanup subscription on unmount
     return () => unsubscribe();
-  }, []);
+  }, [setUser]);
 
+  // Effect to manage body classes for login background
+  useEffect(() => {
+    if (user === null && !loading) {
+        document.body.classList.add('login-background');
+        document.body.classList.remove('bg-slate-50', 'text-slate-900');
+    } else {
+        document.body.classList.remove('login-background');
+        document.body.classList.add('bg-slate-50', 'text-slate-900');
+    }
+    return () => {
+      document.body.classList.remove('login-background');
+      document.body.classList.add('bg-slate-50', 'text-slate-900');
+    }
+  }, [user, loading]);
 
   const handleLogout = useCallback(async () => {
     try {
@@ -140,7 +150,7 @@ const App: React.FC = () => {
 
   return (
     <div className="antialiased text-slate-900">
-      {user ? <Dashboard onLogout={handleLogout} user={user} /> : <Login />}
+      {user ? <Dashboard onLogout={handleLogout} /> : <Login />}
     </div>
   );
 };

@@ -1,7 +1,12 @@
 
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import {
+  initializeFirestore,
+  persistentLocalCache,
+  persistentMultipleTabManager,
+  setLogLevel,
+} from 'firebase/firestore';
 import { getAnalytics } from 'firebase/analytics';
 
 // Your web app's Firebase configuration
@@ -19,7 +24,16 @@ const firebaseConfig = {
 // Initialize Firebase using the modern v9 modular SDK
 const app = initializeApp(firebaseConfig);
 
-// Export Firebase services for modular SDK usage
+// Robust Firestore initialization
+export const db = initializeFirestore(app, {
+  localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }),
+  experimentalAutoDetectLongPolling: true,
+  useFetchStreams: true,
+});
+
+// Optional: quiet noisy warnings
+setLogLevel('error');
+
+// Export other Firebase services
 export const auth = getAuth(app);
-export const db = getFirestore(app);
 export const analytics = getAnalytics(app);
