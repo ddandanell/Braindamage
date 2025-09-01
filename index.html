@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-  <meta charset="UTF-8" />
+    <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Brain Damage</title>
-  <!-- Built Tailwind CSS -->
-  <link rel="stylesheet" href="/src.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -90,16 +89,33 @@
       }
     </style>
   <script>
-    if (window.trustedTypes && !window.trustedTypes.getPolicy('app#default')) {
-      window.trustedTypes.createPolicy('app#default', {
-        createHTML: s => { throw new Error('createHTML blocked'); },
-        createScript: s => s,
-        createScriptURL: s => s 
-      });
+    if (window.trustedTypes && window.trustedTypes.createPolicy) {
+      if (!window.trustedTypes.getPolicy('app#default')) {
+        window.trustedTypes.createPolicy('app#default', {
+          createHTML: s => { throw new Error('createHTML blocked'); },
+          createScript: s => s,
+          createScriptURL: s => s 
+        });
+      }
     }
   </script>
   <script src="https://www.google.com/recaptcha/api.js?render=6LdwGrkrAAAAAHe_Iz1NmaUi_kqcRB6s9vqIX7bW"></script>
-  <!-- Removed importmap: Vite bundles dependencies from node_modules -->
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+    "react/": "https://aistudiocdn.com/react@^19.1.1/",
+    "react": "https://aistudiocdn.com/react@^19.1.1",
+    "firebase/app": "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js",
+    "firebase/auth": "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js",
+    "firebase/firestore": "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js",
+    "firebase/analytics": "https://www.gstatic.com/firebasejs/12.2.1/firebase-analytics.js",
+    "zustand": "https://aistudiocdn.com/zustand@^4.5.4",
+    "framer-motion": "https://aistudiocdn.com/framer-motion@^11.3.8",
+    "firebase/": "https://aistudiocdn.com/firebase@^12.2.1/"
+  }
+}
+</script>
 </head>
   <body class="bg-slate-50 text-slate-900">
     <div id="root"></div>
