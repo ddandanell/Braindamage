@@ -5,7 +5,7 @@ import { ViewType } from '../types';
 import { 
     DashboardIcon, TodoListIcon, WarMapIcon, UsersIcon, KnowledgeIcon, 
     BookmarksIcon, MoneyboxIcon, CurrencyIcon, PasswordIcon, SettingsIcon, 
-    LogOutIcon, BrainIcon 
+    LogOutIcon, BrainIcon, BusinessIdeasIcon, WebDevelopmentIcon, DiaryIcon, HabitTrackingIcon
 } from './Icons';
 
 const Sidebar: React.FC<{ onLogout: () => void; }> = ({ onLogout }) => {

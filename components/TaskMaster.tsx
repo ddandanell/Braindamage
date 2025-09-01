@@ -138,7 +138,7 @@ const TaskMaster: React.FC = () => {
     if (!user) return <div>Authenticating...</div>
 
     return (
-        <div className="flex h-screen w-screen bg-slate-100 text-slate-900 antialiased font-sans">
+        <div className="flex h-screen w-screen bg-slate-50 text-slate-900 antialiased font-sans">
             <Sidebar 
                 isOpen={isSidebarOpen} 
                 onClose={() => setIsSidebarOpen(false)}
@@ -152,7 +152,7 @@ const TaskMaster: React.FC = () => {
             />
             
             <main className="flex-1 flex flex-col transition-all duration-300 ease-in-out">
-                <header className="h-[var(--topbar-h)] flex-shrink-0 bg-slate-100/80 backdrop-blur-lg flex items-center justify-between px-4 sm:px-6">
+                <header className="h-[var(--topbar-h)] flex-shrink-0 bg-slate-50/80 backdrop-blur-lg flex items-center justify-between px-4 sm:px-6 border-b border-slate-200">
                     <div className="flex items-center gap-2">
                         <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="h-10 w-10 flex items-center justify-center rounded-lg text-slate-600 hover:bg-slate-200/60 sm:hidden">
                             <MenuIcon className="w-6 h-6"/>
@@ -256,13 +256,13 @@ const Sidebar: React.FC<{
     }, [tasks]);
 
     return (
-        <nav className={`absolute sm:relative z-20 flex flex-col bg-slate-200/80 backdrop-blur-xl border-r border-slate-300/50 transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'} sm:translate-x-0 w-72 flex-shrink-0`}>
-             <div className="h-[var(--topbar-h)] flex-shrink-0 flex items-center justify-between px-4 border-b border-slate-300/50">
+        <nav className={`absolute sm:relative z-20 flex flex-col bg-slate-800 border-r border-slate-700 transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'} sm:translate-x-0 w-72 flex-shrink-0`}>
+             <div className="h-[var(--topbar-h)] flex-shrink-0 flex items-center justify-between px-4 border-b border-slate-700">
                 <div className="flex items-center gap-2">
-                     <button onClick={onExit} className="h-9 w-9 flex items-center justify-center rounded-lg text-slate-500 hover:bg-slate-300/60"><ChevronLeftIcon className="h-5 w-5"/></button>
-                     <h1 className="text-lg font-bold text-slate-800">Task Master</h1>
+                     <button onClick={onExit} className="h-9 w-9 flex items-center justify-center rounded-lg text-slate-300 hover:bg-slate-700"><ChevronLeftIcon className="h-5 w-5"/></button>
+                     <h1 className="text-lg font-bold text-white">Task Master</h1>
                 </div>
-                 <button onClick={onClose} className="h-9 w-9 flex items-center justify-center rounded-lg text-slate-500 hover:bg-slate-300/60 sm:hidden"><XIcon className="h-6 w-6"/></button>
+                 <button onClick={onClose} className="h-9 w-9 flex items-center justify-center rounded-lg text-slate-300 hover:bg-slate-700 sm:hidden"><XIcon className="h-6 w-6"/></button>
             </div>
             <div className="flex-grow p-3 space-y-4 overflow-y-auto">
                 <div className="space-y-1">
@@ -279,14 +279,14 @@ const Sidebar: React.FC<{
                 </div>
                 <div>
                      <div className="flex items-center justify-between pr-1">
-                        <h3 className="px-3 text-sm font-bold text-slate-600 mt-4 mb-2">My Lists</h3>
-                        <button onClick={() => setIsAddingFolder(true)} className="h-7 w-7 flex items-center justify-center rounded-md text-slate-500 hover:bg-slate-300/60" title="Add new folder">
+                        <h3 className="px-3 text-sm font-bold text-slate-300 mt-4 mb-2">My Lists</h3>
+                        <button onClick={() => setIsAddingFolder(true)} className="h-7 w-7 flex items-center justify-center rounded-md text-slate-400 hover:bg-slate-700" title="Add new folder">
                             <PlusIcon className="w-4 h-4" />
                         </button>
                      </div>
                      <div className="space-y-1">
-                        {isAddingFolder && <div className="px-1 py-1"><input ref={folderInputRef} type="text" value={newFolderName} onChange={(e) => setNewFolderName(e.target.value)} onBlur={handleAddFolder} onKeyDown={(e) => { if (e.key === 'Enter') handleAddFolder(); if (e.key === 'Escape') { setNewFolderName(''); setIsAddingFolder(false);}}} placeholder="New folder name" className="w-full h-8 px-2 text-sm border border-slate-300 rounded-md bg-white focus:ring-1 focus:ring-indigo-500"/></div>}
-                        {folders.map(folder => (<div key={folder.id}><div onClick={() => setOpenFolders(p => ({...p, [folder.id]: !p[folder.id]}))} className="flex items-center w-full px-3 py-2 text-base font-medium rounded-lg text-left gap-2 transition-colors text-slate-700 hover:bg-slate-300/50 cursor-pointer"><ChevronRightIcon className={`w-4 h-4 transition-transform flex-shrink-0 ${openFolders[folder.id] ? 'rotate-90' : ''}`} /><FolderIcon className="w-5 h-5 flex-shrink-0"/><span className="truncate flex-1 font-semibold">{folder.name}</span></div>{openFolders[folder.id] && (<div className="pl-7 space-y-1">{catalogs.filter(c => c.folderId === folder.id).map(c => (<SidebarItem key={c.id} icon={<div className="w-3 h-3 rounded-full flex-shrink-0" style={{backgroundColor: c.color}} />} label={c.name} onClick={() => setCurrentView(c.id)} isActive={currentView === c.id} />))}</div>)}</div>))}
+                        {isAddingFolder && <div className="px-1 py-1"><input ref={folderInputRef} type="text" value={newFolderName} onChange={(e) => setNewFolderName(e.target.value)} onBlur={handleAddFolder} onKeyDown={(e) => { if (e.key === 'Enter') handleAddFolder(); if (e.key === 'Escape') { setNewFolderName(''); setIsAddingFolder(false);}}} placeholder="New folder name" className="w-full h-8 px-2 text-sm border border-slate-600 rounded-md bg-slate-700 text-white placeholder-slate-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"/></div>}
+                        {folders.map(folder => (<div key={folder.id}><div onClick={() => setOpenFolders(p => ({...p, [folder.id]: !p[folder.id]}))} className="flex items-center w-full px-3 py-2 text-base font-medium rounded-lg text-left gap-2 transition-colors text-slate-200 hover:bg-slate-700 cursor-pointer"><ChevronRightIcon className={`w-4 h-4 transition-transform flex-shrink-0 ${openFolders[folder.id] ? 'rotate-90' : ''}`} /><FolderIcon className="w-5 h-5 flex-shrink-0"/><span className="truncate flex-1 font-semibold">{folder.name}</span></div>{openFolders[folder.id] && (<div className="pl-7 space-y-1">{catalogs.filter(c => c.folderId === folder.id).map(c => (<SidebarItem key={c.id} icon={<div className="w-3 h-3 rounded-full flex-shrink-0" style={{backgroundColor: c.color}} />} label={c.name} onClick={() => setCurrentView(c.id)} isActive={currentView === c.id} />))}</div>)}</div>))}
                         {catalogs.filter(c => !c.folderId).map(c => (<SidebarItem key={c.id} icon={<div className="w-3 h-3 rounded-full flex-shrink-0" style={{backgroundColor: c.color}} />} label={c.name} onClick={() => setCurrentView(c.id)} isActive={currentView === c.id} />))}
                      </div>
                 </div>
@@ -315,7 +315,7 @@ const TaskDetailPanel: React.FC<{ task: Task, catalogs: Catalog[], onSave: (data
 };
 
 const DetailRow: React.FC<{icon: React.ReactNode, children: React.ReactNode}> = ({icon, children}) => (<div className="flex items-center gap-4 text-base"><div className="w-6 text-center">{icon}</div><div className="flex-1">{children}</div></div>);
-const SidebarItem: React.FC<{label: string, icon: React.ReactNode, count?: number, isActive: boolean, onClick: () => void}> = ({ label, icon, count, isActive, onClick }) => (<button onClick={onClick} className={`flex items-center w-full px-3 py-2 text-base font-medium rounded-lg text-left gap-3.5 transition-colors ${isActive ? 'bg-indigo-600 text-white shadow' : 'text-slate-700 hover:bg-slate-300/50'}`}><span className="flex-shrink-0 w-5 h-5 flex items-center justify-center">{icon}</span><span className="truncate flex-1 font-semibold">{label}</span>{count != null && count > 0 && <span className="text-sm font-bold">{count}</span>}</button>);
+const SidebarItem: React.FC<{label: string, icon: React.ReactNode, count?: number, isActive: boolean, onClick: () => void}> = ({ label, icon, count, isActive, onClick }) => (<button onClick={onClick} className={`flex items-center w-full px-3 py-2 text-base font-medium rounded-lg text-left gap-3.5 transition-colors ${isActive ? 'bg-indigo-600 text-white shadow' : 'text-slate-200 hover:bg-slate-700'}`}><span className="flex-shrink-0 w-5 h-5 flex items-center justify-center">{icon}</span><span className="truncate flex-1 font-semibold">{label}</span>{count != null && count > 0 && <span className="text-sm font-bold">{count}</span>}</button>);
 const DatePicker: React.FC<{ value: string | null; onChange: (date: string | null) => void; onClose: () => void; }> = ({ value, onChange, onClose }) => { const selectedDate = value ? new Date(value) : null; if (selectedDate) selectedDate.setUTCHours(12); const [displayDate, setDisplayDate] = useState(selectedDate || new Date()); const daysInMonth = useMemo(() => { const date = new Date(Date.UTC(displayDate.getUTCFullYear(), displayDate.getUTCMonth(), 1)); const days = []; while (date.getUTCMonth() === displayDate.getUTCMonth()) { days.push(new Date(date)); date.setUTCDate(date.getUTCDate() + 1); } return days; }, [displayDate]); const startingDayOfMonth = useMemo(() => new Date(Date.UTC(displayDate.getUTCFullYear(), displayDate.getUTCMonth(), 1)).getUTCDay(), [displayDate]); const changeMonth = (amount: number) => { setDisplayDate(prev => { const newDate = new Date(prev); newDate.setUTCMonth(newDate.getUTCMonth() + amount); return newDate; }); }; const handleDayClick = (day: Date) => { onChange(day.toISOString()); onClose(); }; return (<div className="absolute z-10 top-full mt-2 right-0 bg-white shadow-lg border border-slate-200 rounded-2xl p-3 w-72"><div className="flex justify-between items-center mb-2 px-1"><button type="button" onClick={() => changeMonth(-1)} className="h-7 w-7 flex items-center justify-center rounded-full hover:bg-slate-100 text-slate-500"><ChevronLeftIcon className="w-5 h-5"/></button><div className="font-semibold text-sm">{displayDate.toLocaleString('default', { month: 'long', year: 'numeric' })}</div><button type="button" onClick={() => changeMonth(1)} className="h-7 w-7 flex items-center justify-center rounded-full hover:bg-slate-100 text-slate-500"><ChevronRightIcon className="w-5 h-5"/></button></div><div className="grid grid-cols-7 gap-1 text-center text-xs text-slate-500 font-medium my-2">{['S', 'M', 'T', 'W', 'T', 'F', 'S'].map(d => <div key={d}>{d}</div>)}</div><div className="grid grid-cols-7 gap-1">{Array(startingDayOfMonth).fill(null).map((_, i) => <div key={`empty-${i}`}></div>)}{daysInMonth.map(day => { const isSelected = selectedDate && day.toDateString() === selectedDate.toDateString(); const isToday = day.toDateString() === new Date().toDateString(); return (<button key={day.toISOString()} type="button" onClick={() => handleDayClick(day)} className={`h-8 w-8 rounded-full text-sm flex items-center justify-center transition-colors ${isSelected ? 'bg-indigo-600 text-white font-bold' : ''} ${!isSelected && isToday ? 'bg-slate-200 text-slate-800 font-semibold' : ''} ${!isSelected ? 'hover:bg-slate-100 text-slate-700' : ''}`}>{day.getUTCDate()}</button>)})}</div><div className="mt-2 pt-2 border-t border-slate-200"><button type="button" onClick={() => { onChange(null); onClose(); }} className="w-full text-center text-sm font-semibold text-red-600 hover:bg-red-50 p-1.5 rounded-md">Clear Date</button></div></div>); };
 
 export default TaskMaster;

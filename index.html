@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF--8" />
+    <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Brain Damage</title>
@@ -89,12 +89,14 @@
       }
     </style>
   <script>
-    if (window.trustedTypes && !window.trustedTypes.getPolicy('app#default')) {
-      window.trustedTypes.createPolicy('app#default', {
-        createHTML: s => { throw new Error('createHTML blocked'); },
-        createScript: s => s,
-        createScriptURL: s => s 
-      });
+    if (window.trustedTypes && window.trustedTypes.createPolicy) {
+      if (!window.trustedTypes.getPolicy('app#default')) {
+        window.trustedTypes.createPolicy('app#default', {
+          createHTML: s => { throw new Error('createHTML blocked'); },
+          createScript: s => s,
+          createScriptURL: s => s 
+        });
+      }
     }
   </script>
   <script src="https://www.google.com/recaptcha/api.js?render=6LdwGrkrAAAAAHe_Iz1NmaUi_kqcRB6s9vqIX7bW"></script>
